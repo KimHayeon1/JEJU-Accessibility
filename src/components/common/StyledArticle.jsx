@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Logo from '../../assets/icons/logo.svg';
 
 const StyledArticle = styled.article`
   max-width: 550px;

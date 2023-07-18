@@ -22,9 +22,11 @@ const Home = () => {
   const setHidden = (currIndex) => {
     [...banners.current.children].forEach((v, i) => {
       if (i === currIndex) {
-        v.classList.remove('hidden');
+        v.firstElementChild.setAttribute('aria-hidden', 'false');
+        v.firstElementChild.removeAttribute('tabIndex');
       } else {
-        v.classList.add('hidden');
+        v.firstElementChild.setAttribute('aria-hidden', 'true');
+        v.firstElementChild.setAttribute('tabIndex', '-1');
       }
     });
   };
@@ -51,15 +53,16 @@ const Home = () => {
       setHidden(1);
     } else {
       const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
-      const currBanner = bannersX / -100 + 1;
-      if (currBanner === bannersNum) {
-        return;
-      }
-      banners.current.style.transform = `translateX(${bannersX - 100}%)`;
+      const currBannerIndex = bannersX / -100 + 1;
 
-      setHidden(currBanner);
+      if (currBannerIndex !== bannersNum) {
+        banners.current.style.transform = `translateX(${bannersX - 100}%)`;
+
+        setHidden(currBannerIndex);
+      }
     }
   };
+
   return (
     <>
       <BuyerTopNav />
@@ -70,7 +73,7 @@ const Home = () => {
           aria-roledescription='carousel' // 스크린리더가 캐러셀로 식별
           aria-label='배너 슬라이드'
         >
-          <ul id='banners' ref={banners} aria-live='off'>
+          <ul id='banners' ref={banners} aria-live='assertive'>
             <li role='group' aria-roledescription='slide'>
               <a href='#none'>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -79,11 +82,15 @@ const Home = () => {
                 numquam animi earum veniam excepturi dolor.
               </a>
             </li>
-            <li role='group' aria-roledescription='slide' className='hidden'>
-              <a href='#none'>b</a>
+            <li role='group' aria-roledescription='slide'>
+              <a href='#none' aria-hidden='true' tabIndex={-1}>
+                b
+              </a>
             </li>
-            <li role='group' aria-roledescription='slide' className='hidden'>
-              <a href='#none'>c</a>
+            <li role='group' aria-roledescription='slide'>
+              <a href='#none' aria-hidden='true' tabIndex={-1}>
+                c
+              </a>
             </li>
           </ul>
 
@@ -152,10 +159,6 @@ const StyledMain = styled.main`
   #banners {
     height: 500px;
     display: flex;
-    /* transform: translateX(-100%); */
-    .hidden {
-      visibility: hidden;
-    }
     li {
       flex-shrink: 0;
       width: 100%;
@@ -181,6 +184,7 @@ const StyledMain = styled.main`
     }
     a {
       display: inline-block;
+      width: 100%;
     }
     a:focus {
       outline: 2px solid black;

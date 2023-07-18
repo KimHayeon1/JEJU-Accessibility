@@ -25,8 +25,8 @@ const BuyerTopNav = () => {
             type='text'
             placeholder='상품을 검색해보세요!'
           />
-          <button aria-label='검색하기'>
-            <img src={search} alt='' />
+          <button>
+            <img src={search} alt='검색하기' />
           </button>
         </form>
 
