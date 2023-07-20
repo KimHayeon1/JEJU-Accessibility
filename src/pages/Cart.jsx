@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import BuyerTopNav from '../components/common/BuyerTopNav';
 import { StyledQuantity } from '../components/common/Quantity';
-import Quantity from '../components/common/Quantity';
 
-const Home = () => {
+const Cart = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
     (async () => {
@@ -207,4 +205,4 @@ const StyledMain = styled.main`
     }
   }
 `;
-export default Home;
+export default Cart;

@@ -3,26 +3,14 @@ import styled from 'styled-components';
 const Quantity = ({ quantity, setQuantity, handleMinusBtn, handlePlusBtn }) => {
   return (
     <StyledQuantity>
-      <label htmlFor='quantity-inp' className='a11y-hidden'>
-        수량 입력
-      </label>
+      <button className='minus-btn' onClick={handleMinusBtn}></button>
       <input
-        id='quantity-inp'
         type='number'
         value={quantity}
         min={1}
         onChange={(e) => setQuantity(e.target.value)}
       />
-      <button
-        className='minus-btn'
-        aria-label='수량 빼기'
-        onClick={handleMinusBtn}
-      ></button>
-      <button
-        className='plus-btn'
-        aria-label='수량 더하기'
-        onClick={handlePlusBtn}
-      ></button>
+      <button className='plus-btn' onClick={handlePlusBtn}></button>
     </StyledQuantity>
   );
 };

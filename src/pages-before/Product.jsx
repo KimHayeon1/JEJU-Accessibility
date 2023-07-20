@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import BuyerTopNav from '../components/common/BuyerTopNav';
-import Quantity from '../components/common/Quantity';
+import Quantity from '../components-before/common/Quantity';
 import Footer from '../components/common/Footer';
 import { MButton, MDarkButton } from '../components/common/Buttons';
 
