@@ -12,7 +12,6 @@ const Product = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(17500); // 임시
 
   useEffect(() => {
     (async () => {
@@ -49,6 +48,7 @@ const Product = () => {
     e.preventDefault();
     try {
       const data = await postData();
+      console.log(data);
       const confirm = window.confirm(
         `이미 장바구니에 있는 상품입니다.\n장바구니로 이동하시겠습니까?`
       );
@@ -94,7 +94,7 @@ const Product = () => {
                 총 수량 <span>{quantity}</span> 개
               </span>
               <span className='total-price'>
-                <span>{price * quantity}</span> 원
+                <span>{data && data.price * quantity}</span> 원
               </span>
             </div>
             <div className='btns'>

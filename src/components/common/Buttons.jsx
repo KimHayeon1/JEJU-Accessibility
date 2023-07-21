@@ -4,7 +4,7 @@ const MButton = styled.button`
   width: 100%;
   padding: 19px;
   font-size: 1.8rem;
-  line-height: 22px;
+  line-height: 2.2rem;
   font-weight: 500;
   border-radius: 5px;
   color: white;
@@ -26,4 +26,30 @@ const MWhiteButton = styled(MButton)`
   border: 1px solid var(--gray-300);
 `;
 
-export { MButton, MDisabledButton, MDarkButton, MWhiteButton };
+const SButton = styled(MButton)`
+  padding: 10px;
+  font-size: 1.6rem;
+  line-height: 2rem;
+`;
+
+const SWhiteButton = styled(SButton)`
+  padding: 9px;
+  color: var(--gray-400);
+  background: white;
+  border: 1px solid var(--gray-300);
+`;
+
+const SWhiteButtonHover = styled(SWhiteButton)`
+  color: black;
+  border: 1px solid var(--gray-500);
+`;
+
+export {
+  MButton,
+  MDisabledButton,
+  MDarkButton,
+  MWhiteButton,
+  SButton,
+  SWhiteButton,
+  SWhiteButtonHover,
+};

@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import Banner1 from '../assets/images/banner1.png';
 import Banner2 from '../assets/images/banner2.png';
 import Banner3 from '../assets/images/banner3.png';
-import BuyerTopNav from '../components/common/BuyerTopNav';
+import BuyerTopNav from '../components-before/common/BuyerTopNav';
 import Footer from '../components/common/Footer';
 
 const Home = () => {
@@ -129,7 +128,6 @@ const Home = () => {
         </section>
 
         <ul className='product-list'>
-          <h2 className='a11y-hidden'>상품 목록</h2>
           {data &&
             data.map((v) => {
               return (

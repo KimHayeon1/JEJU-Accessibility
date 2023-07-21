@@ -13,6 +13,7 @@ const TopNav = () => {
   return (
     <StyledFooter>
       <div>
+        <h2 className='a11y-hidden'>호두 소개 및 약관</h2>
         <ul>
           {linkList.map((v) => (
             <li>

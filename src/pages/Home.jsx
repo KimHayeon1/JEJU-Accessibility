@@ -139,23 +139,16 @@ const Home = () => {
       <BuyerTopNav />
       <StyledMain>
         <section
-          onFocus={() => {
-            setAutoSlide(false);
-          }}
-          onBlur={() => {
-            setAutoSlide(true);
-          }}
-          onMouseOver={() => {
-            setAutoSlide(false);
-          }}
-          onMouseOut={() => {
-            setAutoSlide(true);
-          }}
+          onFocus={() => setAutoSlide(false)}
+          onBlur={() => setAutoSlide(true)}
+          onMouseOver={() => setAutoSlide(false)}
+          onMouseOut={() => setAutoSlide(true)}
           className='banner-frame'
           // 암시적으로 role='region'
           aria-roledescription='carousel'
           aria-label='배너 슬라이드'
         >
+          <h2 className='a11y-hidden'>메인 배너</h2>
           <ul id='banners' ref={banners} aria-live='off'>
             {bannerData &&
               bannerData.map((v, i) => (
@@ -210,24 +203,26 @@ const Home = () => {
           )}
         </section>
 
-        <ul className='product-list'>
+        <section>
           <h2 className='a11y-hidden'>상품 목록</h2>
-          {data &&
-            data.map((v) => {
-              return (
-                <li key={v.product_id}>
-                  <Link to={`/products/${v.product_id}/`}>
-                    <img src={v.image} alt='' />
-                    <div className='store'>{v.store_name}</div>
-                    <strong>{v.product_name}</strong>
-                    <div className='price'>
-                      <span>{v.price}</span>원
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-        </ul>
+          <ul className='product-list'>
+            {data &&
+              data.map((v) => {
+                return (
+                  <li key={v.product_id}>
+                    <Link to={`/products/${v.product_id}/`}>
+                      <img src={v.image} alt='' />
+                      <div className='store'>{v.store_name}</div>
+                      <strong>{v.product_name}</strong>
+                      <div className='price'>
+                        <span>{v.price}</span>원
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </section>
       </StyledMain>
       <Footer></Footer>
     </>

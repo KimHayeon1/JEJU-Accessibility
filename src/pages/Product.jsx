@@ -1,18 +1,25 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import BuyerTopNav from '../components/common/BuyerTopNav';
 import Quantity from '../components/common/Quantity';
 import Footer from '../components/common/Footer';
-import { MButton, MDarkButton } from '../components/common/Buttons';
+import {
+  MButton,
+  MDarkButton,
+  SButton,
+  SWhiteButton,
+  SWhiteButtonHover,
+} from '../components/common/Buttons';
+import Modal from '../components/common/Modal';
 
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(17500); // 임시
+  const modal = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -49,12 +56,7 @@ const Product = () => {
     e.preventDefault();
     try {
       const data = await postData();
-      const confirm = window.confirm(
-        `이미 장바구니에 있는 상품입니다.\n장바구니로 이동하시겠습니까?`
-      );
-      if (confirm) {
-        navigate('/cart');
-      }
+      modal.current.showModal();
     } catch (error) {
       console.error(error);
     }
@@ -76,6 +78,7 @@ const Product = () => {
         <h2 className='a11y-hidden'>상품 상세</h2>
         <section className='purchase'>
           <div>
+            <h3 className='a11y-hidden'>상품 주요 정보</h3>
             <div className='store'>{data && data.store_name}</div>
             <strong>{data && data.product_name}</strong>
             <div className='price'>
@@ -94,17 +97,38 @@ const Product = () => {
                 총 수량 <span>{quantity}</span> 개
               </span>
               <span className='total-price'>
-                <span>{price * quantity}</span> 원
+                <span>{data && data.price * quantity}</span> 원
               </span>
             </div>
             <div className='btns'>
               <MButton>바로 구매</MButton>
               <MDarkButton onClick={handleCardBtn}>장바구니</MDarkButton>
             </div>
+            <Modal ref={modal}>
+              <div>
+                <p>
+                  이미 장바구니에 있는 상품입니다.
+                  <br />
+                  장바구니로 이동하시겠습니까?
+                </p>
+                <div>
+                  <SWhiteButton onClick={() => modal.current.close()}>
+                    아니요
+                  </SWhiteButton>
+                  <SButton onClick={() => navigate('/cart')}>예</SButton>
+                </div>
+              </div>
+              <button
+                className='close'
+                aria-label='닫기'
+                onClick={() => modal.current.close()}
+              ></button>
+            </Modal>
           </div>
           <img src={data && data.image} alt='상품' />
         </section>
         <section className='info'>
+          <h3 className='a11y-hidden'>상품 상세 정보</h3>
           <ul>
             <li>
               <button className='on'>상세</button>

@@ -5,8 +5,11 @@ import logo from '../../assets/icons/logo.svg';
 import cart from '../../assets/icons/cart.svg';
 import user from '../../assets/icons/user.svg';
 import search from '../../assets/icons/search.svg';
+import DropdownMenu from './DropdownMenu';
+import { useState } from 'react';
 
 const BuyerTopNav = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
   return (
     <StyledHeader>
       <div>
@@ -30,14 +33,29 @@ const BuyerTopNav = () => {
           </button>
         </form>
 
-        <Link id='cart' to='/cart'>
+        <Link id='cart' to='/cart' className='menu'>
           <img src={cart} alt='' />
           장바구니
         </Link>
-        <Link>
-          <img src={user} alt='' />
-          마이페이지
-        </Link>
+        <div
+          className='menu myPage'
+          onMouseOver={() => setShowDropdown(true)}
+          onMouseOut={() => setShowDropdown(false)}
+        >
+          {/* 태그 고민 */}
+          <a href='#none'>
+            <img src={user} alt='' />
+            마이페이지
+          </a>
+          {showDropdown && (
+            <DropdownMenu>
+              <div>
+                <a href='#none'>마이페이지</a>
+                <button>로그아웃</button>
+              </div>
+            </DropdownMenu>
+          )}
+        </div>
       </div>
     </StyledHeader>
   );
@@ -45,11 +63,12 @@ const BuyerTopNav = () => {
 
 const StyledHeader = styled.header`
   position: fixed;
+  z-index: 1000;
   width: 100%;
   box-shadow: 0 4px 5px #00000010;
   background: white;
 
-  div {
+  & > div {
     max-width: 1280px;
     margin: auto;
     padding: 22px 52px; // 52 임의
@@ -87,7 +106,7 @@ const StyledHeader = styled.header`
     }
   }
 
-  div > a {
+  .menu {
     color: var(--gray-400);
     font-size: 1.2rem;
 
@@ -106,6 +125,14 @@ const StyledHeader = styled.header`
 
     &:last-child {
       margin-left: 38px;
+    }
+  }
+  .myPage {
+    position: relative;
+    & > a {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 `;

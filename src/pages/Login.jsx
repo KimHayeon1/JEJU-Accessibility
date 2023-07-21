@@ -62,7 +62,6 @@ const Login = () => {
         <img src={Logo} alt='호두 로고' />
       </StyledH1>
       <StyledArticle>
-        {/* 고민중 */}
         <h2 className='a11y-hidden'>로그인</h2>
 
         <form onSubmit={handleForm}>
@@ -91,7 +90,7 @@ const Login = () => {
         </form>
         <StyledLinks>
           <Link to='/join'>회원가입</Link>
-          <Link onClick={(e) => alert('아직 기능이 개발되지 않았습니다.')}>
+          <Link onClick={() => alert('아직 기능이 개발되지 않았습니다.')}>
             비밀번호 찾기
           </Link>
         </StyledLinks>
