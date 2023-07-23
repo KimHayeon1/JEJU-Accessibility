@@ -63,6 +63,14 @@ const StyledArticle = styled.article`
     button {
       margin-top: 36px;
     }
+
+    strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 1.6rem;
+      line-height: 2rem;
+      color: var(--error-color);
+    }
   }
 `;
 
