@@ -195,6 +195,7 @@ const StyledMain = styled.main`
       img {
         height: 100%;
         object-fit: cover;
+        object-position: 24% top;
       }
     }
   }
