@@ -23,24 +23,12 @@ const Home = () => {
     })();
   }, []);
 
-  const hideBanner = (currIndex) => {
-    [...banners.current.children].forEach((v, i) => {
-      if (i === currIndex) {
-        v.classList.remove('hidden');
-      } else {
-        v.classList.add('hidden');
-      }
-    });
-  };
-
   const handlePrevBtn = (e) => {
     e.preventDefault();
     const bannersTransform = banners.current.style.transform;
     if (bannersTransform !== '' && bannersTransform !== 'translateX(0%)') {
       const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
       banners.current.style.transform = `translateX(${bannersX + 100}%)`;
-      const currIndex = bannersX / -100 - 1;
-      hideBanner(currIndex);
     }
   };
 
@@ -51,7 +39,6 @@ const Home = () => {
 
     if (bannersTransform === '') {
       banners.current.style.transform = 'translateX(-100%)';
-      hideBanner(1);
       return;
     }
 
@@ -60,7 +47,6 @@ const Home = () => {
 
     if (currBannerNum !== bannerData.length) {
       banners.current.style.transform = `translateX(${bannersX - 100}%)`;
-      hideBanner(currBannerNum);
     }
   };
 
@@ -70,7 +56,6 @@ const Home = () => {
 
       if (bannersTransform === '') {
         banners.current.style.transform = 'translateX(-100%)';
-        hideBanner(1);
         return;
       }
 
@@ -78,11 +63,9 @@ const Home = () => {
       const currBannerNum = bannersX / -100 + 1;
 
       if (currBannerNum === bannerData.length) {
-        banners.current.style.transform = 'translateX(-100%)';
-        hideBanner(1);
+        banners.current.style.transform = 'translateX(0%)';
       } else {
         banners.current.style.transform = `translateX(${bannersX - 100}%)`;
-        hideBanner(currBannerNum);
       }
     }, 2000);
   };
@@ -156,9 +139,6 @@ const StyledMain = styled.main`
   padding-top: 90px;
 
   /* 배너 캐러셀 테스트 */
-  .hidden {
-    visibility: hidden;
-  }
   .banner-frame {
     overflow-x: hidden;
     position: relative;
