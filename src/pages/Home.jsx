@@ -194,8 +194,10 @@ const Home = () => {
               ></button>
             </>
           )}
+
+          {/* 시각적 역할만 하므로 aria-hidden 처리 */}
           {bannerData && (
-            <ol className='indicators' aria-label='인디케이터'>
+            <ol className='indicators' aria-hidden='true'>
               {bannerData.map((_, i) => (
                 <li className={currBanner === i ? 'curr' : ''}></li>
               ))}

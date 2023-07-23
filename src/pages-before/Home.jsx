@@ -10,6 +10,7 @@ import Footer from '../components/common/Footer';
 const Home = () => {
   const [data, setData] = useState(null);
   const banners = useRef(null);
+  const [currBanner, setCurrBanner] = useState(0);
 
   const bannerData = [{ img: Banner1 }, { img: Banner2 }, { img: Banner3 }];
 
@@ -29,6 +30,8 @@ const Home = () => {
     if (bannersTransform !== '' && bannersTransform !== 'translateX(0%)') {
       const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
       banners.current.style.transform = `translateX(${bannersX + 100}%)`;
+      const currIndex = bannersX / -100 - 1;
+      setCurrBanner(currIndex);
     }
   };
 
@@ -39,6 +42,7 @@ const Home = () => {
 
     if (bannersTransform === '') {
       banners.current.style.transform = 'translateX(-100%)';
+      setCurrBanner(1);
       return;
     }
 
@@ -47,6 +51,7 @@ const Home = () => {
 
     if (currBannerNum !== bannerData.length) {
       banners.current.style.transform = `translateX(${bannersX - 100}%)`;
+      setCurrBanner(currBannerNum);
     }
   };
 
@@ -56,6 +61,8 @@ const Home = () => {
 
       if (bannersTransform === '') {
         banners.current.style.transform = 'translateX(-100%)';
+
+        setCurrBanner(1);
         return;
       }
 
@@ -64,8 +71,11 @@ const Home = () => {
 
       if (currBannerNum === bannerData.length) {
         banners.current.style.transform = 'translateX(0%)';
+        setCurrBanner(0);
       } else {
         banners.current.style.transform = `translateX(${bannersX - 100}%)`;
+
+        setCurrBanner(currBannerNum);
       }
     }, 2000);
   };
@@ -107,6 +117,13 @@ const Home = () => {
                 onClick={handleNextBtn}
               ></button>
             </>
+          )}
+          {bannerData && (
+            <ol className='indicators'>
+              {bannerData.map((_, i) => (
+                <li className={currBanner === i ? 'curr' : ''}></li>
+              ))}
+            </ol>
           )}
         </section>
 
@@ -197,6 +214,25 @@ const StyledMain = styled.main`
         object-fit: cover;
         object-position: 24% top;
       }
+    }
+  }
+  .indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    font-size: 0;
+    li {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+    }
+    li.curr {
+      background: black;
+    }
+    li:not(:first-child) {
+      margin-left: 6px;
     }
   }
 
