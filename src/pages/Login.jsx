@@ -30,14 +30,19 @@ const Login = () => {
 
   const handleForm = async (e) => {
     e.preventDefault();
+    const target = e.currentTarget;
     if (!id) {
       errorEl.current.textContent = '';
       errorEl.current.textContent = '아이디를 입력해 주세요.';
+
+      target.querySelector('#id-inp').focus();
       return;
     }
     if (!password) {
       errorEl.current.textContent = '';
       errorEl.current.textContent = '비밀번호를 입력해 주세요.';
+
+      target.querySelector('#password-inp').focus();
       return;
     }
     try {
@@ -50,6 +55,7 @@ const Login = () => {
         errorEl.current.textContent = '';
         errorEl.current.textContent =
           '아이디 또는 비밀번호가 일치하지 않습니다.';
+        target.querySelector('#id-inp').focus();
       }
     } catch (error) {
       console.error(error);
