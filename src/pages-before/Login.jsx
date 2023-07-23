@@ -62,9 +62,6 @@ const Login = () => {
         <img src={Logo} alt='호두 로고' />
       </StyledH1>
       <StyledArticle>
-        {/* 고민중 */}
-        <h2 className='a11y-hidden'>로그인</h2>
-
         <form onSubmit={handleForm}>
           <label htmlFor='id-inp' className='a11y-hidden'>
             아이디 입력
@@ -86,7 +83,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <strong ref={errorEl} role='alert'></strong>
+          <strong ref={errorEl}></strong>
           <MButton>로그인</MButton>
         </form>
         <StyledLinks>
