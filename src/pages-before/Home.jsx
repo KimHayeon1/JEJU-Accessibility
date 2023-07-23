@@ -207,6 +207,9 @@ const StyledMain = styled.main`
     height: 500px;
     display: flex;
     li {
+      a:focus {
+        outline-offset: -2px;
+      }
       flex-shrink: 0;
       width: 100%;
       img {
