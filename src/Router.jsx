@@ -6,6 +6,8 @@ import Cart from './pages/Cart';
 
 import BeforeLogin from './pages-before/Login';
 import BeforeHome from './pages-before/Home';
+import BeforeHome2 from './pages-before/Home2';
+import BeforeHome3 from './pages-before/Home3';
 import BeforeProduct from './pages-before/Product';
 
 const Router = () => {
@@ -19,6 +21,8 @@ const Router = () => {
 
         {/* before */}
         <Route path='/before' element={<BeforeHome />} />
+        <Route path='/before2' element={<BeforeHome2 />} />
+        <Route path='/before3' element={<BeforeHome3 />} />
         <Route path='/beforelogin' element={<BeforeLogin />} />
         <Route path='/beforeproducts/:id' element={<BeforeProduct />} />
       </Routes>

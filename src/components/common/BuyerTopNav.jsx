@@ -6,10 +6,19 @@ import cart from '../../assets/icons/cart.svg';
 import user from '../../assets/icons/user.svg';
 import search from '../../assets/icons/search.svg';
 import DropdownMenu from './DropdownMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const BuyerTopNav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  useEffect(() => {
+    if(showDropdown) {
+window.addEventListener('keydown', (e) => {
+  //esc
+  if(e.keyCode === 27) {
+    setShowDropdown(false)
+}})
+    }
+  }, [showDropdown])
   return (
     <StyledHeader>
       <div>
@@ -41,7 +50,11 @@ const BuyerTopNav = () => {
           className='menu myPage'
           onFocus={() => setShowDropdown(true)}
           onMouseOver={() => setShowDropdown(true)}
-          onMouseOut={() => setShowDropdown(false)}
+          onMouseOut={() => {
+            if(!document.activeElement.closest('.menu.myPage')) {
+              setShowDropdown(false)
+            }
+          }}
         >
           {/* 태그 고민 */}
           <a href='#none'>

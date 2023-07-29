@@ -1,16 +1,29 @@
 import { styled } from 'styled-components';
 
-const Modal = styled.dialog`
-  width: 360px;
-  height: 200px;
-  border: 1px solid var(--gray-300);
+const Modal = styled.div`
+position: fixed;
+z-index: 1100;
+inset: 0;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+  }
   & > div {
-    position: relative;
-    width: inherit;
-    height: inherit;
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 200px;
+    border: 1px solid var(--gray-300);
+    background: white;
   }
   p {
     text-align: center;

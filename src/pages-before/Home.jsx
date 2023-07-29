@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Banner1 from '../assets/images/banner1.png';
 import Banner2 from '../assets/images/banner2.png';
@@ -81,9 +82,11 @@ const Home = () => {
   };
 
   useEffect(() => {
+    let interval
     if (bannerData.length > 1) {
-      rotateSlide();
+      interval = rotateSlide();
     }
+    return () => clearInterval(interval)
   }, []);
 
   return (
@@ -124,7 +127,7 @@ const Home = () => {
                 <li className={currBanner === i ? 'curr' : ''}></li>
               ))}
             </ol>
-          )}
+          )}  
         </section>
 
         <ul className='product-list'>
@@ -132,7 +135,7 @@ const Home = () => {
             data.map((v) => {
               return (
                 <li key={v.product_id}>
-                  <a href='#none'>
+                    <Link to={`/beforeproducts/${v.product_id}/`}>
                     <div>
                       <img src={v.image} alt='' />
                     </div>
@@ -141,7 +144,7 @@ const Home = () => {
                     <div className='price'>
                       <span>{v.price}</span>원
                     </div>
-                  </a>
+                  </Link>
                 </li>
               );
             })}
