@@ -94,11 +94,11 @@ const Home = () => {
   };
 
   const onLive = () => {
-    banners.current.setAttribute('aria-live', 'polite');
+    // banners.current.setAttribute('aria-live', 'polite');
   };
 
   const offLive = () => {
-    banners.current.setAttribute('aria-live', 'off');
+    // banners.current.setAttribute('aria-live', 'off');
   };
 
   const rotateSlide = () => {
@@ -122,16 +122,19 @@ const Home = () => {
       }
     }, 2000);
   };
+  useEffect(() => {
+    rotateSlide();
+  }, [])
 
   useEffect(() => {
     let interval;
     if (autoSlide) {
       offLive();
-      interval = rotateSlide();
+      // interval = rotateSlide();
     } else {
       onLive();
     }
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, [autoSlide]);
 
   return (
@@ -167,7 +170,7 @@ const Home = () => {
             </>
           )}
 
-          <ul id='banners' ref={banners} aria-live='off'>
+          <ul id='banners' ref={banners} aria-live='polite'>
             {bannerData &&
               bannerData.map((v, i) => (
                 <li

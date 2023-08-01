@@ -81,13 +81,13 @@ const Home = () => {
     }, 2000);
   };
 
-  useEffect(() => {
-    let interval
-    if (bannerData.length > 1) {
-      interval = rotateSlide();
-    }
-    return () => clearInterval(interval)
-  }, []);
+  // useEffect(() => {
+  //   let interval
+  //   if (bannerData.length > 1) {
+  //     interval = rotateSlide();
+  //   }
+  //   return () => clearInterval(interval)
+  // }, []);
 
   return (
     <>
@@ -204,7 +204,7 @@ const StyledMain = styled.main`
     }
   }
   #banners {
-    height: 500px;
+    height: 380px; // 촬영을 위해 임시로 380. 기존 500
     display: flex;
     li {
       a:focus {

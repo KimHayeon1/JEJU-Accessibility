@@ -94,11 +94,11 @@ const Home = () => {
   };
 
   const onLive = () => {
-    banners.current.setAttribute('aria-live', 'polite');
+    // banners.current.setAttribute('aria-live', 'polite');
   };
 
   const offLive = () => {
-    banners.current.setAttribute('aria-live', 'off');
+    // banners.current.setAttribute('aria-live', 'off');
   };
 
   const rotateSlide = () => {
@@ -167,7 +167,7 @@ const Home = () => {
             </>
           )}
 
-          <ul id='banners' ref={banners} aria-live='off'>
+          <ul id='banners' ref={banners} aria-live='polite'>
             {bannerData &&
               bannerData.map((v, i) => (
                 <li

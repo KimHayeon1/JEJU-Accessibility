@@ -28,24 +28,24 @@ const Home = () => {
     {
       img: Banner1,
       textList: [
-        '사람과 환경을 위한 지속 가능한 포장재 호두 그린 박스',
+        '사람과 환경을 위한 지속 가능한 포장재',
+        '호두 그린 박스',
         '호두 직배송 상품 구경하러 가기',
       ],
     },
     {
       img: Banner2,
       textList: [
-        '친구 초대하면 친구도 나도 1만원씩!',
-        '초대할 때마다 제한 없이 1만원 쿠폰 발급!',
-        '2023년 7월 20일부터 2023년 8월 20일까지',
+        '친구 초대하면 친구도 나도 1만원씩',
+        '너도 받고 나도 받고',
       ],
     },
     {
       img: Banner3,
       textList: [
-        '한 눈에 보는 8월 호두 혜택 모음!',
-        '최대 20% 할인 쿠폰!',
-        '2023년 8월 1일부터 2023년 8월 21일까지',
+        '한 눈에 보는 8월 호두 혜택',
+        '최대 20% 할인 쿠폰 제공!',
+        '기간: 2023년 8월 1일부터 2023년 8월 21일까지',
       ],
     },
   ];
@@ -105,11 +105,11 @@ const Home = () => {
     }, 2000);
   };
 
-  useEffect(() => {
-    if (bannerData.length > 1) {
-      rotateSlide();
-    }
-  }, []);
+  //  useEffect(() => {
+  //    if (bannerData.length > 1) {
+  //     rotateSlide();
+  //  }
+  //  }, []);
 
   return (
     <>
@@ -244,7 +244,7 @@ const StyledMain = styled.main`
     }
   }
   #banners {
-    height: 500px;
+    height: 380px;
     display: flex;
     li {
       a:focus {

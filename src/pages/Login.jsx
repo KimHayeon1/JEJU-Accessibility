@@ -34,15 +34,13 @@ const Login = () => {
     if (!id) {
       errorEl.current.textContent = '';
       errorEl.current.textContent = '아이디를 입력해 주세요.';
-
-      target.querySelector('#id-inp').focus();
+      idInp.current.focus();
       return;
     }
     if (!password) {
       errorEl.current.textContent = '';
       errorEl.current.textContent = '비밀번호를 입력해 주세요.';
-
-      target.querySelector('#password-inp').focus();
+      passwordInp.current.focus();
       return;
     }
     try {
@@ -55,13 +53,15 @@ const Login = () => {
         errorEl.current.textContent = '';
         errorEl.current.textContent =
           '아이디 또는 비밀번호가 일치하지 않습니다.';
-        target.querySelector('#id-inp').focus();
+      idInp.current.focus();
       }
     } catch (error) {
       console.error(error);
     }
   };
   const errorEl = useRef();
+  const idInp = useRef();
+  const passwordInp = useRef();
   return (
     <>
       <StyledH1>
@@ -77,6 +77,7 @@ const Login = () => {
           <input
             id='id-inp'
             type='text'
+            ref={idInp}
             placeholder='아이디'
             value={id}
             onChange={(e) => setId(e.target.value)}
@@ -87,6 +88,8 @@ const Login = () => {
           <input
             id='password-inp'
             type='text'
+            ref={passwordInp}
+
             placeholder='비밀번호'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
