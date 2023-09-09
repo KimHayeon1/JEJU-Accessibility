@@ -1,18 +1,19 @@
-// 대체 텍스트 개선
-
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Banner1 from '../assets/images/banner1.png';
 import Banner2 from '../assets/images/banner2.png';
 import Banner3 from '../assets/images/banner3.png';
-import BuyerTopNav from '../components-before/common/BuyerTopNav';
+import BuyerTopNav from '../beforeComponents/common/BuyerTopNav';
 import Footer from '../components/common/Footer';
 
 const Home = () => {
   const [data, setData] = useState(null);
   const banners = useRef(null);
   const [currBanner, setCurrBanner] = useState(0);
+
+  const bannerData = [{ img: Banner1 }, { img: Banner2 }, { img: Banner3 }];
 
   useEffect(() => {
     (async () => {
@@ -24,31 +25,6 @@ const Home = () => {
     })();
   }, []);
 
-  const bannerData = [
-    {
-      img: Banner1,
-      textList: [
-        '사람과 환경을 위한 지속 가능한 포장재',
-        '호두 그린 박스',
-        '호두 직배송 상품 구경하러 가기',
-      ],
-    },
-    {
-      img: Banner2,
-      textList: [
-        '친구 초대하면 친구도 나도 1만원씩',
-        '너도 받고 나도 받고',
-      ],
-    },
-    {
-      img: Banner3,
-      textList: [
-        '한 눈에 보는 8월 호두 혜택',
-        '최대 20% 할인 쿠폰 제공!',
-        '기간: 2023년 8월 1일부터 2023년 8월 21일까지',
-      ],
-    },
-  ];
   const handlePrevBtn = (e) => {
     e.preventDefault();
     const bannersTransform = banners.current.style.transform;
@@ -80,37 +56,6 @@ const Home = () => {
     }
   };
 
-  const rotateSlide = () => {
-    setInterval(() => {
-      const bannersTransform = banners.current.style.transform;
-
-      if (bannersTransform === '') {
-        banners.current.style.transform = 'translateX(-100%)';
-
-        setCurrBanner(1);
-        return;
-      }
-
-      const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
-      const currBannerNum = bannersX / -100 + 1;
-
-      if (currBannerNum === bannerData.length) {
-        banners.current.style.transform = 'translateX(0%)';
-        setCurrBanner(0);
-      } else {
-        banners.current.style.transform = `translateX(${bannersX - 100}%)`;
-
-        setCurrBanner(currBannerNum);
-      }
-    }, 2000);
-  };
-
-  //  useEffect(() => {
-  //    if (bannerData.length > 1) {
-  //     rotateSlide();
-  //  }
-  //  }, []);
-
   return (
     <>
       <BuyerTopNav />
@@ -118,28 +63,10 @@ const Home = () => {
         <section className='banner-frame'>
           <ul id='banners' ref={banners}>
             {bannerData &&
-              bannerData.map((v, i) => (
-                <li
-                >
+              bannerData.map((v) => (
+                <li>
                   <a href='#none'>
-                    <img src={v.img} alt='' />
-                    {/* 태그 바꾸기 */}
-                    <p className='a11y-hidden'>
-                      {v.textList.map((text, i) => {
-                        if (!i) {
-                          return text;
-                        } else {
-                          return (
-                            <>
-                              <br />
-                              {text}
-                            </>
-                          );
-                        }
-                      })}
-                      <br />
-                      {`${bannerData.length}개의 슬라이드 중 ${i + 1}번`}
-                    </p>
+                    <img src={v.img} alt='메인 배너' />
                   </a>
                 </li>
               ))}
@@ -175,7 +102,7 @@ const Home = () => {
             data.map((v) => {
               return (
                 <li key={v.product_id}>
-                  <a href='#none'>
+                  <Link to={`/beforeproducts/${v.product_id}/`}>
                     <div>
                       <img src={v.image} alt='' />
                     </div>
@@ -184,7 +111,7 @@ const Home = () => {
                     <div className='price'>
                       <span>{v.price}</span>원
                     </div>
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -244,7 +171,7 @@ const StyledMain = styled.main`
     }
   }
   #banners {
-    height: 380px;
+    height: 500px;
     display: flex;
     li {
       a:focus {

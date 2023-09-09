@@ -1,16 +1,16 @@
-// 대체 텍스트 개선
-
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Banner1 from '../assets/images/banner1.png';
 import Banner2 from '../assets/images/banner2.png';
 import Banner3 from '../assets/images/banner3.png';
-import BuyerTopNav from '../components-before/common/BuyerTopNav';
+import BuyerTopNav from '../components/common/BuyerTopNav';
 import Footer from '../components/common/Footer';
 
 const Home = () => {
   const [data, setData] = useState(null);
+  const [autoSlide, setAutoSlide] = useState(true);
   const banners = useRef(null);
   const [currBanner, setCurrBanner] = useState(0);
 
@@ -35,10 +35,7 @@ const Home = () => {
     },
     {
       img: Banner2,
-      textList: [
-        '친구 초대하면 친구도 나도 1만원씩',
-        '너도 받고 나도 받고',
-      ],
+      textList: ['친구 초대하면 친구도 나도 1만원씩', '너도 받고 나도 받고'],
     },
     {
       img: Banner3,
@@ -49,6 +46,20 @@ const Home = () => {
       ],
     },
   ];
+
+  const hideBanner = (currIndex) => {
+    setCurrBanner(currIndex);
+    [...banners.current.children].forEach((v, i) => {
+      if (i === currIndex) {
+        v.setAttribute('aria-hidden', 'false');
+        v.firstElementChild.removeAttribute('tabIndex');
+      } else {
+        v.setAttribute('aria-hidden', 'true');
+        v.firstElementChild.setAttribute('tabIndex', '-1');
+      }
+    });
+  };
+
   const handlePrevBtn = (e) => {
     e.preventDefault();
     const bannersTransform = banners.current.style.transform;
@@ -56,72 +67,113 @@ const Home = () => {
       const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
       banners.current.style.transform = `translateX(${bannersX + 100}%)`;
       const currIndex = bannersX / -100 - 1;
-      setCurrBanner(currIndex);
+      hideBanner(currIndex);
     }
   };
 
   const handleNextBtn = (e) => {
     e.preventDefault();
-
     const bannersTransform = banners.current.style.transform;
 
-    if (bannersTransform === '') {
+    if (bannersTransform === '' && bannerData.length !== 1) {
       banners.current.style.transform = 'translateX(-100%)';
-      setCurrBanner(1);
+      hideBanner(1);
       return;
     }
 
     const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
-    const currBannerNum = bannersX / -100 + 1;
+    const currBannerIndex = bannersX / -100 + 1;
 
-    if (currBannerNum !== bannerData.length) {
+    if (currBannerIndex < bannerData.length) {
       banners.current.style.transform = `translateX(${bannersX - 100}%)`;
-      setCurrBanner(currBannerNum);
+      hideBanner(currBannerIndex);
     }
   };
 
+  const onLive = () => {
+    // banners.current.setAttribute('aria-live', 'polite');
+  };
+
+  const offLive = () => {
+    // banners.current.setAttribute('aria-live', 'off');
+  };
+
   const rotateSlide = () => {
-    setInterval(() => {
+    return setInterval(() => {
       const bannersTransform = banners.current.style.transform;
 
       if (bannersTransform === '') {
         banners.current.style.transform = 'translateX(-100%)';
-
-        setCurrBanner(1);
+        hideBanner(1);
         return;
       }
 
       const bannersX = parseInt(bannersTransform.replace(/[^\d-]/g, ''));
-      const currBannerNum = bannersX / -100 + 1;
-
-      if (currBannerNum === bannerData.length) {
-        banners.current.style.transform = 'translateX(0%)';
-        setCurrBanner(0);
-      } else {
+      const currBannerIndex = bannersX / -100 + 1;
+      if (currBannerIndex < bannerData.length) {
         banners.current.style.transform = `translateX(${bannersX - 100}%)`;
-
-        setCurrBanner(currBannerNum);
+        hideBanner(currBannerIndex);
+      } else {
+        banners.current.style.transform = '';
+        hideBanner(0);
       }
     }, 2000);
   };
 
-   useEffect(() => {
-     if (bannerData.length > 1) {
-      rotateSlide();
-   }
-   }, []);
+  useEffect(() => {
+    let interval;
+    if (autoSlide) {
+      offLive();
+      interval = rotateSlide();
+    } else {
+      onLive();
+    }
+    return () => clearInterval(interval);
+  }, [autoSlide]);
 
   return (
     <>
       <BuyerTopNav />
       <StyledMain>
-        <section className='banner-frame'>
-          <ul id='banners' ref={banners}>
+        <section
+          onFocus={() => setAutoSlide(false)}
+          onBlur={() => setAutoSlide(true)}
+          onMouseOver={() => setAutoSlide(false)}
+          onMouseOut={() => setAutoSlide(true)}
+          className='banner-frame'
+          // 암시적으로 role='region'
+          aria-roledescription='carousel'
+          aria-label='메인 배너 슬라이드'
+        >
+          {/* <h2 className='a11y-hidden'>메인 배너 슬라이드</h2> */}
+
+          {bannerData && (
+            <>
+              <button
+                aria-label='이전 슬라이드 보기'
+                aria-controls='banners'
+                id='prev-btn'
+                onClick={handlePrevBtn}
+              ></button>
+              <button
+                aria-label='다음 슬라이드 보기'
+                aria-controls='banners'
+                id='next-btn'
+                onClick={handleNextBtn}
+              ></button>
+            </>
+          )}
+
+          <ul id='banners' ref={banners} aria-live='polite'>
             {bannerData &&
               bannerData.map((v, i) => (
                 <li
+                  aria-roledescription='slide'
+                  // 이전, 다음 클릭 시, label만 읽히거나, label만 안 읽히거나
+                  // aria-label={`${bannerData.length}개 중 ${i + 1}번`}
+                  aria-hidden={currBanner !== i}
                 >
-                  <a href='#none'>
+                  <a href='#none' tabIndex={currBanner !== i ? '-1' : '0'}>
                     <img src={v.img} alt='' />
                     {/* 태그 바꾸기 */}
                     <p className='a11y-hidden'>
@@ -145,24 +197,9 @@ const Home = () => {
               ))}
           </ul>
 
+          {/* 시각적 역할만 하므로 aria-hidden 처리 */}
           {bannerData && (
-            <>
-              <button
-                aria-label='이전 슬라이드 보기'
-                aria-controls='banners'
-                id='prev-btn'
-                onClick={handlePrevBtn}
-              ></button>
-              <button
-                aria-label='다음 슬라이드 보기'
-                aria-controls='banners'
-                id='next-btn'
-                onClick={handleNextBtn}
-              ></button>
-            </>
-          )}
-          {bannerData && (
-            <ol className='indicators'>
+            <ol className='indicators' aria-hidden='true'>
               {bannerData.map((_, i) => (
                 <li className={currBanner === i ? 'curr' : ''}></li>
               ))}
@@ -170,25 +207,26 @@ const Home = () => {
           )}
         </section>
 
-        <ul className='product-list'>
-          {data &&
-            data.map((v) => {
-              return (
-                <li key={v.product_id}>
-                  <a href='#none'>
-                    <div>
+        <section>
+          <h2 className='a11y-hidden'>상품 목록</h2>
+          <ul className='product-list'>
+            {data &&
+              data.map((v) => {
+                return (
+                  <li key={v.product_id}>
+                    <Link to={`/products/${v.product_id}/`}>
                       <img src={v.image} alt='' />
-                    </div>
-                    <div className='store'>{v.store_name}</div>
-                    <div>{v.product_name}</div>
-                    <div className='price'>
-                      <span>{v.price}</span>원
-                    </div>
-                  </a>
-                </li>
-              );
-            })}
-        </ul>
+                      <div className='store'>{v.store_name}</div>
+                      <strong>{v.product_name}</strong>
+                      <div className='price'>
+                        <span>{v.price}</span>원
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </section>
       </StyledMain>
       <Footer></Footer>
     </>
@@ -204,7 +242,7 @@ const StyledMain = styled.main`
     position: relative;
 
     button {
-      z-index: 1;
+      z-index: 100;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -236,6 +274,7 @@ const StyledMain = styled.main`
       transform: rotate(-45deg);
       bottom: 14px;
     }
+
     #prev-btn {
       left: 38px;
     }
@@ -244,7 +283,7 @@ const StyledMain = styled.main`
     }
   }
   #banners {
-    height: 380px;
+    height: 500;
     display: flex;
     li {
       a:focus {
@@ -255,7 +294,7 @@ const StyledMain = styled.main`
       img {
         height: 100%;
         object-fit: cover;
-        object-position: 24% top;
+        object-position: 24% top; // 임시
       }
     }
   }
@@ -287,6 +326,16 @@ const StyledMain = styled.main`
     gap: 70px;
     grid-template-columns: repeat(3, 1fr);
 
+    li {
+    }
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+    a:focus {
+      outline: 2px solid black;
+      border-radius: 5px;
+    }
     img {
       object-fit: cover;
       box-sizing: border-box;

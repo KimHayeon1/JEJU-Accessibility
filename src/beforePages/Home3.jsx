@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Banner1 from '../assets/images/banner1.png';
 import Banner2 from '../assets/images/banner2.png';
 import Banner3 from '../assets/images/banner3.png';
-import BuyerTopNav from '../components-before/common/BuyerTopNav';
+import BuyerTopNav from '../beforeComponents/common/BuyerTopNav';
 import Footer from '../components/common/Footer';
 
 const Home = () => {
@@ -90,7 +90,6 @@ const Home = () => {
     banners.current.setAttribute('aria-live', 'off');
   };
 
-
   const rotateSlide = () => {
     return setInterval(() => {
       const bannersTransform = banners.current.style.transform;
@@ -112,7 +111,7 @@ const Home = () => {
       } else {
         banners.current.style.transform = '';
         // hideBanner(0);
-        setCurrBanner(0)
+        setCurrBanner(0);
       }
     }, 2000);
   };
@@ -120,7 +119,7 @@ const Home = () => {
   useEffect(() => {
     let interval;
     if (autoSlide) {
-      console.log('a')
+      console.log('a');
       offLive();
       interval = rotateSlide();
     } else {
@@ -133,16 +132,17 @@ const Home = () => {
     <>
       <BuyerTopNav />
       <StyledMain>
-        <section className='banner-frame' 
+        <section
+          className='banner-frame'
           onFocus={() => setAutoSlide(false)}
           onBlur={() => setAutoSlide(true)}
           onMouseOver={() => setAutoSlide(false)}
-          onMouseOut={() => setAutoSlide(true)}>
+          onMouseOut={() => setAutoSlide(true)}
+        >
           <ul id='banners' ref={banners}>
             {bannerData &&
               bannerData.map((v, i) => (
-                <li
-                >
+                <li>
                   <a href='#none'>
                     <img src={v.img} alt='' />
                     {/* 태그 바꾸기 */}
@@ -197,7 +197,7 @@ const Home = () => {
             data.map((v) => {
               return (
                 <li key={v.product_id}>
-                    <Link to={`/beforeproducts/${v.product_id}/`}>
+                  <Link to={`/beforeproducts/${v.product_id}/`}>
                     <div>
                       <img src={v.image} alt='' />
                     </div>

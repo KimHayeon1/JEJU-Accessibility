@@ -1,25 +1,24 @@
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import BuyerTopNav from '../components/common/BuyerTopNav';
-import Quantity from '../components-before/common/Quantity';
+import Quantity from '../beforeComponents/common/Quantity';
 import Footer from '../components/common/Footer';
 import {
   MButton,
   MDarkButton,
   SButton,
   SWhiteButton,
-  SWhiteButtonHover,
 } from '../components/common/Buttons';
-import Modal from '../components-before/common/Modal';
+import Modal from '../beforeComponents/common/Modal';
 
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [isModal, setIsModal] = useState(false)
+  const [isModal, setIsModal] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -55,7 +54,7 @@ const Product = () => {
   const handleCardBtn = async (e) => {
     e.preventDefault();
     try {
-      setIsModal(true)
+      setIsModal(true);
       const data = await postData();
     } catch (error) {
       console.error(error);
@@ -104,27 +103,28 @@ const Product = () => {
               <MButton>바로 구매</MButton>
               <MDarkButton onClick={handleCardBtn}>장바구니</MDarkButton>
             </div>
-            {isModal && <Modal>
-              <div>
-              <button
-                className='close'
-                aria-label='닫기'
-                onClick={() => setIsModal(false)}
-              ></button>
-                <p>
-                  이미 장바구니에 있는 상품입니다.
-                  <br />
-                  장바구니로 이동하시겠습니까?
-                </p>
+            {isModal && (
+              <Modal>
                 <div>
-                  <SWhiteButton onClick={() => setIsModal(false)}>
-                    아니요
-                  </SWhiteButton>
-                  <SButton onClick={() => navigate('/cart')}>예</SButton>
+                  <button
+                    className='close'
+                    aria-label='닫기'
+                    onClick={() => setIsModal(false)}
+                  ></button>
+                  <p>
+                    이미 장바구니에 있는 상품입니다.
+                    <br />
+                    장바구니로 이동하시겠습니까?
+                  </p>
+                  <div>
+                    <SWhiteButton onClick={() => setIsModal(false)}>
+                      아니요
+                    </SWhiteButton>
+                    <SButton onClick={() => navigate('/cart')}>예</SButton>
+                  </div>
                 </div>
-              </div>
-            </Modal>}
-            
+              </Modal>
+            )}
           </div>
           <img src={data && data.image} alt='상품' />
         </section>
