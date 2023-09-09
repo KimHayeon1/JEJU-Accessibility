@@ -4,21 +4,19 @@ const Modal = styled.dialog`
   width: 360px;
   height: 200px;
   border: 1px solid var(--gray-300);
-  & > div {
-    position: relative;
-    width: inherit;
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  p {
+  span {
+    display: block;
     text-align: center;
-    margin-bottom: 30px;
     font-size: 1.6rem;
     line-height: 2rem;
   }
-  div > div {
+  span:first-child {
+    margin: 50px 0 0;
+  }
+  span:not(:first-child) {
+    margin: 0 0 30px;
+  }
+  div {
     text-align: center;
     button {
       width: 100px;
@@ -30,8 +28,9 @@ const Modal = styled.dialog`
 
   .close {
     position: absolute;
-    top: 18px;
-    right: 26px; //18 + 8(버튼 width / 2)
+    padding: 10px 20px;
+    top: 8px;
+    right: 6px; //18 + 8(버튼 width / 2)
   }
   .close::after,
   .close::before {

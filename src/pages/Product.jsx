@@ -105,19 +105,18 @@ const Product = () => {
               <MDarkButton onClick={handleCardBtn}>장바구니</MDarkButton>
             </div>
             <Modal ref={modal}>
-              <div>
-                <p>
+                <span>
                   이미 장바구니에 있는 상품입니다.
-                  <br />
+                </span>
+                <span>
                   장바구니로 이동하시겠습니까?
-                </p>
+                </span>
                 <div>
                   <SWhiteButton onClick={() => modal.current.close()}>
                     아니요
                   </SWhiteButton>
                   <SButton onClick={() => navigate('/cart')}>예</SButton>
                 </div>
-              </div>
               <button
                 className='close'
                 aria-label='닫기'
